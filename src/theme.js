@@ -7,6 +7,7 @@ const theme = {
     primary: '#0366d6',
     appBarBackground: '#24292e',
     appBarText: '#ffffff',
+    buttonText: '#ffffff',
   },
   fontSizes: {
     body: 12,
