@@ -8,6 +8,7 @@ const theme = {
     appBarBackground: '#24292e',
     appBarText: '#ffffff',
     buttonText: '#ffffff',
+    error: '#d73a4a',
   },
   fontSizes: {
     body: 12,
