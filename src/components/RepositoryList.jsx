@@ -1,58 +1,34 @@
-import { FlatList } from 'react-native'
+import { StyleSheet, ActivityIndicator, FlatList } from 'react-native'
+import useRepositories from '../hooks/useRepositories'
 import RepositoryItem from './RepositoryItem'
 import ItemSeparator from './ItemSeparator'
+import Text from './Text'
+import theme from '../theme'
 
-const repositories = [
-  {
-    id: 'jaredpalmer.formik',
-    fullName: 'jaredpalmer/formik',
-    description: 'Build forms in React without the tears.',
-    language: 'TypeScript',
-    forksCount: 1589,
-    stargazersCount: 21553,
-    ratingAverage: 88,
-    reviewCount: 4,
-    ownerAvatarUrl: 'https://avatars2.githubusercontent.com/u/4060187?v=4',
+const styles = StyleSheet.create({
+  error: {
+    color: theme.colors.error,
   },
-  {
-    id: 'rails.rails',
-    fullName: 'rails/rails',
-    description: 'Ruby on Rails.',
-    language: 'Ruby',
-    forksCount: 18349,
-    stargazersCount: 45377,
-    ratingAverage: 100,
-    reviewCount: 2,
-    ownerAvatarUrl: 'https://avatars1.githubusercontent.com/u/4223?v=4',
-  },
-  {
-    id: 'django.django',
-    fullName: 'django/django',
-    description: 'The web framework for perfectionists with deadlines.',
-    language: 'Python',
-    forksCount: 21015,
-    stargazersCount: 48496,
-    ratingAverage: 73,
-    reviewCount: 5,
-    ownerAvatarUrl: 'https://avatars2.githubusercontent.com/u/27804?v=4',
-  },
-  {
-    id: 'reduxjs.redux',
-    fullName: 'reduxjs/redux',
-    description: 'Predictable state container for JavaScript applications.',
-    language: 'TypeScript',
-    forksCount: 13902,
-    stargazersCount: 52869,
-    ratingAverage: 0,
-    reviewCount: 0,
-    ownerAvatarUrl: 'https://avatars3.githubusercontent.com/u/13142323?v=4',
-  },
-]
+})
 
 const RepositoryList = () => {
+  const { loading, error, repositories } = useRepositories()
+
+  if (loading) {
+    return <ActivityIndicator />
+  }
+
+  if (error) {
+    return <Text style={styles.error}>{error.message}</Text>
+  }
+
+  const repositoryNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : []
+
   return (
     <FlatList
-      data={repositories}
+      data={repositoryNodes}
       renderItem={({ item }) => <RepositoryItem repository={item} />}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={ItemSeparator}
