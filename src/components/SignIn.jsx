@@ -1,6 +1,7 @@
 import { StyleSheet, View, TextInput, Pressable } from 'react-native'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import useSignIn from '../hooks/useSignIn'
 import Text from './Text'
 import theme from '../theme'
 
@@ -106,13 +107,20 @@ const SignInForm = ({ onSubmit }) => {
 }
 
 const SignIn = () => {
-  const onSubmit = (values) => {
-    console.log(values)
+  const [signIn, result] = useSignIn()
+
+  const onSubmit = async (values) => {
+    const { username, password } = values
+    await signIn({ username, password })
   }
 
   return (
     <View style={styles.container}>
       <SignInForm onSubmit={onSubmit} />
+      {result.error && (
+        <Text style={styles.errorText}>{result.error.message}</Text>
+      )}
+      {result.loading && <Text>Please wait...</Text>}
     </View>
   )
 }
