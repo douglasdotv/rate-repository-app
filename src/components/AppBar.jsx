@@ -32,9 +32,14 @@ const AppBar = () => {
           <AppBarTab title="Repositories" />
         </Link>
         {isLoggedIn ? (
-          <Pressable onPress={signOut}>
-            <AppBarTab title="Sign out" />
-          </Pressable>
+          <>
+            <Link to="/create-review">
+              <AppBarTab title="Create a review" />
+            </Link>
+            <Pressable onPress={signOut}>
+              <AppBarTab title="Sign out" />
+            </Pressable>
+          </>
         ) : (
           <Link to="/signin">
             <AppBarTab title="Sign in" />
