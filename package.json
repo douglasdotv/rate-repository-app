@@ -43,6 +43,7 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.6",
     "react-router-native": "^6.28.0",
+    "use-debounce": "^10.0.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {
