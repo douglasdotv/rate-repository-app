@@ -15,7 +15,13 @@ const styles = StyleSheet.create({
 
 const SingleRepository = () => {
   const { id } = useParams()
-  const { loading, error, repository } = useRepository(id)
+
+  const variables = {
+    id,
+    first: 5,
+  }
+
+  const { loading, error, repository, fetchMore } = useRepository(variables)
 
   if (loading) {
     return <ActivityIndicator />
@@ -25,9 +31,13 @@ const SingleRepository = () => {
     return <Text style={styles.error}>{error.message}</Text>
   }
 
-  const reviewNodes = repository.reviews
+  const reviewNodes = repository
     ? repository.reviews.edges.map((edge) => edge.node)
     : []
+
+  const onEndReach = () => {
+    fetchMore()
+  }
 
   return (
     <FlatList
@@ -38,6 +48,8 @@ const SingleRepository = () => {
         <RepositoryItem repository={repository} showGitHubButton />
       }
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   )
 }
